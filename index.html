@@ -68,8 +68,8 @@
 <div class="intro">
 <h2>What can street photos tell us about a roof?</h2>
 <div>
-<p>Stand outside a house and its highest ridge may be hidden from view. Walk around it, though, and each angle gives a different clue. WireDiT combines those clues to estimate where the roof’s corners lie in 3D and which corners are joined by an edge.</p>
-<p>The result is a wireframe, a simple line drawing you can turn in space. It could help estimate roof area for a renovation or identify space for solar panels, even when the original plans are missing.</p>
+<p>How long is the roof ridge? How much space is there for solar panels? If the plans are missing, answering those questions can mean paying for a laser scan or sending up a drone. With WireDiT, the starting point is a series of photos taken while walking around the house.</p>
+<p>Each view reveals a different part of the roof. WireDiT uses those clues to estimate its corners and connect them into a <strong>metric 3D wireframe</strong>. The model has real-world scale, so you can measure a ridge in metres or estimate the area of a roof slope in square metres.</p>
 <a href="https://cyber.felk.cvut.cz/news/phd-students-win-international-competition-with-ai-for-3d-roof-reconstruction/">Read the story from CTU</a>
 </div>
 </div>
@@ -96,55 +96,58 @@
 <p>The model works with a sparse 3D point cloud, camera poses, scale-fitted depth maps and semantic labels derived from street-level views. HoHo provides these observations while withholding the original RGB images for privacy.</p>
 <div class="findings">
 <article class="finding">
-<strong>64</strong>
-<h3>Slots for building corners</h3>
-<p>WireDiT starts with 64 noisy 3D positions. It moves them toward likely corners, predicts which ones belong to the building, and connects them with edges. A second pass zooms in on the predicted structure.</p>
-</article>
-<article class="finding">
 <strong>0.6542</strong>
-<h3>Best score on unseen houses</h3>
-<p>On the private HoHo test set, WireDiT led on the Hybrid Structure Score (HSS) and vertex F1 (0.7907). Another method scored higher on edge IoU, so recovering connectivity remains a challenge.</p>
+<h3>First on houses the team had never seen</h3>
+<p>On HoHo’s private test, each team submitted once and saw its score only after evaluation closed. WireDiT ranked first on these unseen real-world captures in both overall structure (HSS) and corner F1 (0.7907).</p>
 </article>
 <article class="finding">
-<strong>+0.1133</strong>
-<h3>HSS from anchoring scene tokens</h3>
-<p>Tying scene tokens to observed 3D points raised validation HSS from 0.3639 to 0.4772 compared with freely learned tokens. Giving each token a location helps preserve the geometry of the scene.</p>
+<strong>5.52 s</strong>
+<h3>From a prepared scene to a wireframe</h3>
+<p>On one NVIDIA A100 GPU, 5.52 seconds covered scene preprocessing, both model passes and consensus over 16 samples. The clock starts after the point cloud, depth maps and camera poses are available.</p>
 </article>
+<article class="finding">
+<strong>+0.0253</strong>
+<h3>A second look improves the roof</h3>
+<p>Cropping around the first prediction and refining the same corners raised validation HSS from 0.4735 to 0.4988. That gain was larger than the next gain from 16-sample consensus, which brought HSS to 0.5032.</p>
+</article>
+</div>
+<aside class="limit"><strong>A detail to watch for.</strong> A chimney can be missing from the wireframe even when the main roof is right. From street level, a chimney may leave only a handful of 3D points for the model to work with.</aside>
+</section>
+<section class="section" id="walkthrough">
+<h2 id="walk-title">How WireDiT reconstructs a roof</h2>
+<div class="walkthrough">
+<figure class="player"><video controls playsinline muted loop preload="none" aria-labelledby="walk-title" poster="./assets/cad034481c0.webp" src="./assets/cad034481c0.mp4"></video></figure>
+<ol><li><h3>Find the roof</h3><p>The first pass uses the whole point cloud to estimate the main corners and how they connect.</p></li><li><h3>Crop around the estimate</h3><p>The green volume encloses the first prediction. Points outside this region drop out, leaving a closer look at the building.</p></li><li><h3>Refine the corners</h3><p>The second pass revisits the same corners using the remaining points and updates the edges between them.</p></li></ol>
 </div>
 </section>
 <section class="section" id="gallery">
 <h2>Reconstruction gallery</h2>
-<p>Watch the candidate corners move into place. The first pass searches the full point cloud. The second refines the estimate using points around the predicted building.</p>
+<p>Compare four houses. The dots are 3D observations, the orange lines are WireDiT’s prediction and the blue lines mark the reference roof. Watch where the lines converge along the main ridges and where smaller structures still differ.</p>
 <div class="gallery" data-assets="./assets/">
 <figure class="player">
-<video controls playsinline muted loop preload="none" aria-labelledby="scene-title" poster="./assets/cad034481c0.webp" src="./assets/cad034481c0.mp4">
+<video controls playsinline muted loop preload="none" aria-labelledby="scene-title" poster="./assets/01be0610fd5.webp" src="./assets/01be0610fd5.mp4">
 </video>
-<figcaption id="scene-title" aria-live="polite">House 1 · cad034481c0</figcaption>
+<figcaption id="scene-title" aria-live="polite">House 1 · 01be0610fd5</figcaption>
 </figure>
 <div class="choices" role="group" aria-label="Select a reconstruction">
-<button type="button" data-id="cad034481c0" data-label="House 1" aria-pressed="true">
-<img alt="" loading="lazy" src="./assets/cad034481c0.webp">
-<span>House 1<small>cad034481c0</small>
-</span>
-</button>
-<button type="button" data-id="01be0610fd5" data-label="House 2" aria-pressed="false">
+<button type="button" data-id="01be0610fd5" data-label="House 1" aria-pressed="true">
 <img alt="" loading="lazy" src="./assets/01be0610fd5.webp">
-<span>House 2<small>01be0610fd5</small>
+<span>House 1<small>01be0610fd5</small>
 </span>
 </button>
-<button type="button" data-id="19026555ec3" data-label="House 3" aria-pressed="false">
+<button type="button" data-id="19026555ec3" data-label="House 2" aria-pressed="false">
 <img alt="" loading="lazy" src="./assets/19026555ec3.webp">
-<span>House 3<small>19026555ec3</small>
+<span>House 2<small>19026555ec3</small>
 </span>
 </button>
-<button type="button" data-id="b555f8c5fc2" data-label="House 4" aria-pressed="false">
+<button type="button" data-id="b555f8c5fc2" data-label="House 3" aria-pressed="false">
 <img alt="" loading="lazy" src="./assets/b555f8c5fc2.webp">
-<span>House 4<small>b555f8c5fc2</small>
+<span>House 3<small>b555f8c5fc2</small>
 </span>
 </button>
-<button type="button" data-id="d7cd1551270" data-label="House 5" aria-pressed="false">
+<button type="button" data-id="d7cd1551270" data-label="House 4" aria-pressed="false">
 <img alt="" loading="lazy" src="./assets/d7cd1551270.webp">
-<span>House 5<small>d7cd1551270</small>
+<span>House 4<small>d7cd1551270</small>
 </span>
 </button>
 </div>

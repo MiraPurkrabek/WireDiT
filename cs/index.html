@@ -68,8 +68,8 @@
 <div class="intro">
 <h2>Co o střeše prozradí fotky z ulice?</h2>
 <div>
-<p>Když stojíte před domem, nejvyšší hřeben střechy možná vůbec neuvidíte. Obejděte ale dům dokola a z každé strany zahlédnete trochu víc. WireDiT z těchto vodítek odhaduje, kde v prostoru leží jednotlivé rohy střechy a které z nich spojuje hrana.</p>
-<p>Výsledkem je drátový model, tedy kresba z čar, kterou si můžete v prostoru otočit. Může pomoci odhadnout plochu střechy při rekonstrukci nebo najít místo pro solární panely, i když původní plány chybějí.</p>
+<p>Jak dlouhý je hřeben střechy? Kolik místa je na ní pro solární panely? Když chybějí plány, může být potřeba zaplatit za laserové skenování nebo letecké snímkování dronem. WireDiT vychází z fotek, které pořídíte, když dům obejdete pěšky.</p>
+<p>Z každé strany zahlédnete jinou část střechy. WireDiT z těchto vodítek odhadne polohu rohů a propojí je do <strong>metrického 3D drátového modelu</strong>. Ten má skutečné měřítko, takže v něm můžete změřit délku hřebene v metrech nebo odhadnout plochu jedné strany střechy v metrech čtverečních.</p>
 <a href="https://fel.cvut.cz/cs/aktualne/novinky/84587-staci-vyfotit-dum-a-ai-dopocita-strechu-doktorandi-fel-cvut-zvitezili-v-prestizni-svetove-soutezi">Přečíst reportáž ČVUT</a>
 </div>
 </div>
@@ -96,55 +96,58 @@
 <p>Model využívá řídké mračno 3D bodů, polohy a orientace kamer, hloubkové mapy se sjednoceným měřítkem a sémantické značky odvozené z pohledů z ulice. Datová sada HoHo tato data poskytuje, původní barevné snímky však kvůli ochraně soukromí nezveřejňuje.</p>
 <div class="findings">
 <article class="finding">
-<strong>64</strong>
-<h3>Slotů pro rohy budovy</h3>
-<p>WireDiT začíná s 64 náhodnými polohami v prostoru. Postupně je přesouvá k pravděpodobným rohům, vybírá ty, které patří k budově, a propojuje je hranami. Druhý průchod zpřesňuje odhad v okolí budovy.</p>
-</article>
-<article class="finding">
 <strong>0,6542</strong>
-<h3>Nejlepší skóre na nových domech</h3>
-<p>V neveřejné testovací sadě HoHo dosáhl WireDiT nejvyšší hodnoty metriky Hybrid Structure Score (HSS) i F1 pro vrcholy (0,7907). V metrice IoU pro hrany byla lepší jiná metoda. Správně propojit rohy tedy zůstává výzvou.</p>
+<h3>První místo na dosud neviděných domech</h3>
+<p>V neveřejném testu HoHo měl každý tým jediný pokus a skóre se dozvěděl až po skončení hodnocení. Na záběrech skutečných domů, které tým předtím neviděl, zvítězil WireDiT v celkovém skóre struktury (HSS) i v metrice F1 pro rohy (0,7907).</p>
 </article>
 <article class="finding">
-<strong>+0,1133</strong>
-<h3>Bodu HSS díky ukotvení tokenů</h3>
-<p>Ukotvení tokenů scény v pozorovaných 3D bodech zvýšilo validační HSS z 0,3639 na 0,4772 oproti volně naučeným tokenům. Konkrétní poloha pomáhá tokenům zachovat geometrii scény.</p>
+<strong>5,52 s</strong>
+<h3>Od připravené scény k modelu</h3>
+<p>Na jedné GPU NVIDIA A100 zabralo předzpracování scény, oba průchody modelem i výběr výsledku ze 16 odhadů celkem 5,52 sekundy. Měření začíná ve chvíli, kdy už jsou k dispozici mračno bodů, hloubkové mapy a polohy kamer.</p>
 </article>
+<article class="finding">
+<strong>+0,0253</strong>
+<h3>Druhý průchod zpřesní střechu</h3>
+<p>Po ořezu scény podle prvního odhadu model znovu zpřesní polohy stejných rohů. Na validační sadě tím HSS stouplo z 0,4735 na 0,4988. To byl větší přínos než následný výběr ze 16 odhadů, který skóre zvýšil na 0,5032.</p>
+</article>
+</div>
+<aside class="limit"><strong>Detail, který může chybět.</strong> I když hlavní tvar střechy sedí, v modelu může chybět komín. Při pohledu z ulice ho totiž ve 3D mračnu někdy zachytí jen několik bodů.</aside>
+</section>
+<section class="section" id="walkthrough">
+<h2 id="walk-title">Jak WireDiT rekonstruuje střechu</h2>
+<div class="walkthrough">
+<figure class="player"><video controls playsinline muted loop preload="none" aria-labelledby="walk-title" poster="../assets/cad034481c0.webp" src="../assets/cad034481c0.mp4"></video></figure>
+<ol><li><h3>Najít střechu</h3><p>Při prvním průchodu model z celého mračna bodů odhadne hlavní rohy a hrany střechy.</p></li><li><h3>Oříznout scénu podle odhadu</h3><p>Zelený objem obklopuje první odhad. Body mimo něj se odfiltrují a model se může soustředit na samotnou budovu.</p></li><li><h3>Zpřesnit polohu rohů</h3><p>Ve druhém průchodu model podle zbývajících bodů upraví polohy stejných rohů i jejich propojení.</p></li></ol>
 </div>
 </section>
 <section class="section" id="gallery">
 <h2>Galerie rekonstrukcí</h2>
-<p>Sledujte, jak se odhadované rohy postupně přesouvají na své místo. První průchod prohledává celé mračno bodů. Druhý zpřesňuje odhad pomocí bodů v okolí předpovězené budovy.</p>
+<p>Porovnejte čtyři domy. Tečky jsou pozorované 3D body, oranžové čáry ukazují odhad WireDiT a modré referenční tvar střechy. Sledujte, kde se čáry na hlavních hřebenech překryjí a kde se u drobných detailů ještě rozcházejí.</p>
 <div class="gallery" data-assets="../assets/">
 <figure class="player">
-<video controls playsinline muted loop preload="none" aria-labelledby="scene-title" poster="../assets/cad034481c0.webp" src="../assets/cad034481c0.mp4">
+<video controls playsinline muted loop preload="none" aria-labelledby="scene-title" poster="../assets/01be0610fd5.webp" src="../assets/01be0610fd5.mp4">
 </video>
-<figcaption id="scene-title" aria-live="polite">Dům 1 · cad034481c0</figcaption>
+<figcaption id="scene-title" aria-live="polite">Dům 1 · 01be0610fd5</figcaption>
 </figure>
 <div class="choices" role="group" aria-label="Výběr rekonstrukce">
-<button type="button" data-id="cad034481c0" data-label="Dům 1" aria-pressed="true">
-<img alt="" loading="lazy" src="../assets/cad034481c0.webp">
-<span>Dům 1<small>cad034481c0</small>
-</span>
-</button>
-<button type="button" data-id="01be0610fd5" data-label="Dům 2" aria-pressed="false">
+<button type="button" data-id="01be0610fd5" data-label="Dům 1" aria-pressed="true">
 <img alt="" loading="lazy" src="../assets/01be0610fd5.webp">
-<span>Dům 2<small>01be0610fd5</small>
+<span>Dům 1<small>01be0610fd5</small>
 </span>
 </button>
-<button type="button" data-id="19026555ec3" data-label="Dům 3" aria-pressed="false">
+<button type="button" data-id="19026555ec3" data-label="Dům 2" aria-pressed="false">
 <img alt="" loading="lazy" src="../assets/19026555ec3.webp">
-<span>Dům 3<small>19026555ec3</small>
+<span>Dům 2<small>19026555ec3</small>
 </span>
 </button>
-<button type="button" data-id="b555f8c5fc2" data-label="Dům 4" aria-pressed="false">
+<button type="button" data-id="b555f8c5fc2" data-label="Dům 3" aria-pressed="false">
 <img alt="" loading="lazy" src="../assets/b555f8c5fc2.webp">
-<span>Dům 4<small>b555f8c5fc2</small>
+<span>Dům 3<small>b555f8c5fc2</small>
 </span>
 </button>
-<button type="button" data-id="d7cd1551270" data-label="Dům 5" aria-pressed="false">
+<button type="button" data-id="d7cd1551270" data-label="Dům 4" aria-pressed="false">
 <img alt="" loading="lazy" src="../assets/d7cd1551270.webp">
-<span>Dům 5<small>d7cd1551270</small>
+<span>Dům 4<small>d7cd1551270</small>
 </span>
 </button>
 </div>

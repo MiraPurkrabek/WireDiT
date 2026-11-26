@@ -516,3 +516,38 @@ footer .links {
     scroll-behavior:auto;
   }
 }
+.limit {
+  margin-top: 28px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--blue);
+  background: var(--panel);
+}
+.walkthrough {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(20px, 4vw, 52px);
+  align-items: center;
+}
+.walkthrough ol {
+  padding-left: 1.6em;
+  margin: 0;
+}
+.walkthrough li::marker {
+  color: var(--blue);
+  font-weight: 650;
+}
+.walkthrough h3 {
+  margin: 0 0 4px;
+}
+.walkthrough li + li {
+  margin-top: 20px;
+}
+.walkthrough p {
+  margin: 0;
+  color: var(--muted);
+}
+@media (max-width: 680px) {
+  .walkthrough {
+    grid-template-columns: 1fr;
+  }
+}
