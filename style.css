@@ -551,3 +551,22 @@ footer .links {
     grid-template-columns: 1fr;
   }
 }
+.brand img {
+  width: 58px;
+  display: block;
+}
+.code-link {
+  font-size: .94rem;
+  font-weight: 630;
+}
+.copy-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+}
+#copy {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  min-width: 44px;
+}

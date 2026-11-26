@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WireDiT · A Vertex-Slot Diffusion Transformer for 3D Wireframe Reconstruction</title>
 <meta name="description" content="WireDiT reconstructs the corners and edges of a roof from street-level observations. Explore the method and watch it reconstruct five houses.">
-<link rel="icon" href="./assets/mark.svg">
+<link rel="icon" href="./assets/house.svg">
 <link rel="stylesheet" href="./style.css">
 <link rel="canonical" href="/WireDiT/">
 <link rel="alternate" hreflang="en" href="/WireDiT/">
@@ -18,8 +18,8 @@
 <body>
 <header>
 <div class="wrap top">
-<a class="brand" href="#top">
-<img alt="" src="./assets/mark.svg">WireDiT</a>
+<a class="brand" href="#top" aria-label="WireDiT">
+<img alt="" src="./assets/house.svg"></a>
 <nav aria-label="Page sections">
 <a href="#overview">Overview</a>
 <a href="#findings">Findings</a>
@@ -46,13 +46,14 @@
 <a class="aff" href="https://vrg.fel.cvut.cz/">Visual Recognition Group, CTU in Prague</a>
 <div class="badges">
 <a class="badge award" href="https://s23dr.github.io/2026/prizes.html">1st place · CVPR 2026 S23DR</a>
-<span class="badge">Accepted · WACV 2027</span>
+<span class="badge">WACV 2027</span>
 </div>
 <div class="actions">
 <a class="button" href="./assets/WireDiT.pdf">
 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
 <path d="M4 2h8l4 4v12H4z M12 2v5h4M7 11h6m-6 3h5"/>
 </svg>Paper (PDF)</a>
+<a class="code-link" href="https://huggingface.co/jskvrna/2026_s23dr">Code</a>
 <span class="pending">arXiv · coming soon</span>
 </div>
 </div>
@@ -80,7 +81,7 @@
 <b>Street-level photos</b>
 </div>
 <div class="stage mid">
-<img alt="" src="./assets/mark.svg">
+<img alt="" src="./assets/house.svg">
 <b>WireDiT</b>
 </div>
 <div class="stage out">
@@ -96,19 +97,19 @@
 <p>The model works with a sparse 3D point cloud, camera poses, scale-fitted depth maps and semantic labels derived from street-level views. HoHo provides these observations while withholding the original RGB images for privacy.</p>
 <div class="findings">
 <article class="finding">
-<strong>0.6542</strong>
+<strong>65.4 / 100</strong>
 <h3>First on houses the team had never seen</h3>
-<p>On HoHo’s private test, each team submitted once and saw its score only after evaluation closed. WireDiT ranked first on these unseen real-world captures in both overall structure (HSS) and corner F1 (0.7907).</p>
+<p>HoHo’s private test gave each team one submission on previously unseen houses. WireDiT led on both roof structure (65.4 out of 100) and corner F1 (79.1). It usually recovers the main roof shape, but misplaced edges cost points even for the strongest methods. The runner-up scored 64.8.</p>
 </article>
 <article class="finding">
-<strong>5.52 s</strong>
+<strong>5.5 s</strong>
 <h3>From a prepared scene to a wireframe</h3>
-<p>On one NVIDIA A100 GPU, 5.52 seconds covered scene preprocessing, both model passes and consensus over 16 samples. The clock starts after the point cloud, depth maps and camera poses are available.</p>
+<p>On one NVIDIA A100 GPU, 5.5 seconds covered scene preprocessing, both model passes and consensus over 16 samples. The clock starts after the point cloud, depth maps and camera poses are available.</p>
 </article>
 <article class="finding">
-<strong>+0.0253</strong>
+<strong>+2.5 points</strong>
 <h3>A second look improves the roof</h3>
-<p>Cropping around the first prediction and refining the same corners raised validation HSS from 0.4735 to 0.4988. That gain was larger than the next gain from 16-sample consensus, which brought HSS to 0.5032.</p>
+<p>Cropping around the first prediction and refining the same corners raised validation HSS from 47.4 to 49.9. That gain was larger than the next gain from 16-sample consensus, which brought HSS to 50.3.</p>
 </article>
 </div>
 <aside class="limit"><strong>A detail to watch for.</strong> A chimney can be missing from the wireframe even when the main roof is right. From street level, a chimney may leave only a handful of 3D points for the model to work with.</aside>
@@ -158,7 +159,7 @@
 <div class="citation">
 <div class="cithead">
 <span>BibTeX</span>
-<button id="copy" type="button" data-ok="Copied" data-fail="Select and copy below" aria-live="polite">Copy citation</button>
+<span class="copy-tools"><span id="copy-feedback" role="status"></span><button id="copy" type="button" data-ok="Copied" data-fail="Select and copy below" aria-label="Copy citation" title="Copy citation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg></button></span>
 </div>
 <pre id="bib">@inproceedings{skvrna2027wiredit,
   title     = {{WireDiT}: A Vertex-Slot Diffusion Transformer for 3D Wireframe Reconstruction},
@@ -171,8 +172,8 @@
 </main>
 <footer>
 <div class="wrap">
-<a class="brand" href="#top">
-<img alt="" src="./assets/mark.svg">WireDiT</a>
+<a class="brand" href="#top" aria-label="WireDiT">
+<img alt="" src="./assets/house.svg"></a>
 <div class="links">
 <a href="https://vrg.fel.cvut.cz/">Visual Recognition Group</a>
 <a href="https://s23dr.github.io/2026/prizes.html">Challenge results</a>

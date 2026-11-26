@@ -16,21 +16,21 @@ document.querySelectorAll('[data-lang]').forEach(link => {
   link.addEventListener('click', () => { link.hash = location.hash; });
 });
 const copy = document.getElementById('copy');
-const label = copy.textContent;
+const feedback = document.getElementById('copy-feedback');
 let feedbackTimer;
 copy.addEventListener('click', async () => {
   const bib = document.getElementById('bib');
   try {
     await navigator.clipboard.writeText(bib.textContent);
-    copy.textContent = copy.dataset.ok;
+    feedback.textContent = copy.dataset.ok;
   } catch {
     const range = document.createRange();
     range.selectNodeContents(bib);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-    copy.textContent = copy.dataset.fail;
+    feedback.textContent = copy.dataset.fail;
   }
   clearTimeout(feedbackTimer);
-  feedbackTimer = setTimeout(() => { copy.textContent = label; }, 2500);
+  feedbackTimer = setTimeout(() => { feedback.textContent = ''; }, 2500);
 });

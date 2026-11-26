@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WireDiT · Difuzní transformer pro rekonstrukci 3D drátových modelů pomocí slotů pro vrcholy</title>
 <meta name="description" content="WireDiT odhaduje rohy a hrany střechy ze záběrů pořízených z ulice. Prohlédněte si metodu a sledujte rekonstrukci pěti domů.">
-<link rel="icon" href="../assets/mark.svg">
+<link rel="icon" href="../assets/house.svg">
 <link rel="stylesheet" href="../style.css">
 <link rel="canonical" href="/WireDiT/cs/">
 <link rel="alternate" hreflang="en" href="/WireDiT/">
@@ -18,8 +18,8 @@
 <body>
 <header>
 <div class="wrap top">
-<a class="brand" href="#top">
-<img alt="" src="../assets/mark.svg">WireDiT</a>
+<a class="brand" href="#top" aria-label="WireDiT">
+<img alt="" src="../assets/house.svg"></a>
 <nav aria-label="Sekce stránky">
 <a href="#overview">Přehled</a>
 <a href="#findings">Výsledky</a>
@@ -46,13 +46,14 @@
 <a class="aff" href="https://vrg.fel.cvut.cz/">Visual Recognition Group, ČVUT v Praze</a>
 <div class="badges">
 <a class="badge award" href="https://s23dr.github.io/2026/prizes.html">1. místo · CVPR 2026 S23DR</a>
-<span class="badge">Přijato na WACV 2027</span>
+<span class="badge">WACV 2027</span>
 </div>
 <div class="actions">
 <a class="button" href="../assets/WireDiT.pdf">
 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
 <path d="M4 2h8l4 4v12H4z M12 2v5h4M7 11h6m-6 3h5"/>
 </svg>Článek (PDF)</a>
+<a class="code-link" href="https://huggingface.co/jskvrna/2026_s23dr">Kód</a>
 <span class="pending">arXiv · připravujeme</span>
 </div>
 </div>
@@ -80,7 +81,7 @@
 <b>Fotky z ulice</b>
 </div>
 <div class="stage mid">
-<img alt="" src="../assets/mark.svg">
+<img alt="" src="../assets/house.svg">
 <b>WireDiT</b>
 </div>
 <div class="stage out">
@@ -96,19 +97,19 @@
 <p>Model využívá řídké mračno 3D bodů, polohy a orientace kamer, hloubkové mapy se sjednoceným měřítkem a sémantické značky odvozené z pohledů z ulice. Datová sada HoHo tato data poskytuje, původní barevné snímky však kvůli ochraně soukromí nezveřejňuje.</p>
 <div class="findings">
 <article class="finding">
-<strong>0,6542</strong>
+<strong>65,4 / 100</strong>
 <h3>První místo na dosud neviděných domech</h3>
-<p>V neveřejném testu HoHo měl každý tým jediný pokus a skóre se dozvěděl až po skončení hodnocení. Na záběrech skutečných domů, které tým předtím neviděl, zvítězil WireDiT v celkovém skóre struktury (HSS) i v metrice F1 pro rohy (0,7907).</p>
+<p>V neveřejném testu HoHo měl každý tým jediný pokus na dosud neviděných domech. WireDiT zvítězil v celkovém skóre struktury střechy (65,4 ze 100) i v metrice F1 pro rohy (79,1). Hlavní tvar střechy obvykle vystihne, ale za nepřesně umístěné hrany ztrácejí body i nejlepší metody. Druhý tým získal 64,8 bodu.</p>
 </article>
 <article class="finding">
-<strong>5,52 s</strong>
+<strong>5,5 s</strong>
 <h3>Od připravené scény k modelu</h3>
-<p>Na jedné GPU NVIDIA A100 zabralo předzpracování scény, oba průchody modelem i výběr výsledku ze 16 odhadů celkem 5,52 sekundy. Měření začíná ve chvíli, kdy už jsou k dispozici mračno bodů, hloubkové mapy a polohy kamer.</p>
+<p>Na jedné GPU NVIDIA A100 zabralo předzpracování scény, oba průchody modelem i výběr výsledku ze 16 odhadů celkem 5,5 sekundy. Měření začíná ve chvíli, kdy už jsou k dispozici mračno bodů, hloubkové mapy a polohy kamer.</p>
 </article>
 <article class="finding">
-<strong>+0,0253</strong>
+<strong>+2,5 bodu</strong>
 <h3>Druhý průchod zpřesní střechu</h3>
-<p>Po ořezu scény podle prvního odhadu model znovu zpřesní polohy stejných rohů. Na validační sadě tím HSS stouplo z 0,4735 na 0,4988. To byl větší přínos než následný výběr ze 16 odhadů, který skóre zvýšil na 0,5032.</p>
+<p>Po ořezu scény podle prvního odhadu model znovu zpřesní polohy stejných rohů. Na validační sadě tím HSS stouplo z 47,4 na 49,9. To byl větší přínos než následný výběr ze 16 odhadů, který skóre zvýšil na 50,3.</p>
 </article>
 </div>
 <aside class="limit"><strong>Detail, který může chybět.</strong> I když hlavní tvar střechy sedí, v modelu může chybět komín. Při pohledu z ulice ho totiž ve 3D mračnu někdy zachytí jen několik bodů.</aside>
@@ -158,7 +159,7 @@
 <div class="citation">
 <div class="cithead">
 <span>BibTeX</span>
-<button id="copy" type="button" data-ok="Zkopírováno" data-fail="Označte text a zkopírujte jej" aria-live="polite">Kopírovat citaci</button>
+<span class="copy-tools"><span id="copy-feedback" role="status"></span><button id="copy" type="button" data-ok="Zkopírováno" data-fail="Označte text a zkopírujte jej" aria-label="Kopírovat citaci" title="Kopírovat citaci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg></button></span>
 </div>
 <pre id="bib">@inproceedings{skvrna2027wiredit,
   title     = {{WireDiT}: A Vertex-Slot Diffusion Transformer for 3D Wireframe Reconstruction},
@@ -171,8 +172,8 @@
 </main>
 <footer>
 <div class="wrap">
-<a class="brand" href="#top">
-<img alt="" src="../assets/mark.svg">WireDiT</a>
+<a class="brand" href="#top" aria-label="WireDiT">
+<img alt="" src="../assets/house.svg"></a>
 <div class="links">
 <a href="https://vrg.fel.cvut.cz/">Visual Recognition Group</a>
 <a href="https://s23dr.github.io/2026/prizes.html">Výsledky soutěže</a>
